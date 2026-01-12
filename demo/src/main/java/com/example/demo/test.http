@@ -1,0 +1,18 @@
+### 1. 유저 등록 요청 (POST)
+POST http://localhost:8080/users?name=SpringStudy
+Content-Type: application/x-www-form-urlencoded
+
+###
+
+### 2. 유저 전체 조회 (GET)
+GET http://localhost:8080/users
+Accept: application/json
+
+### 1. 테스트 데이터 등록 (먼저 실행)
+POST http://localhost:8080/users?name=Gildong
+
+### 2. 테스트 데이터 등록 (하나 더 실행)
+POST http://localhost:8080/users?name=Chulsoo
+
+### 3. 이름으로 검색 (Gildong만 나오는지 확인)
+GET http://localhost:8080/users/search?name=Gildong
