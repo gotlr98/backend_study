@@ -8,7 +8,7 @@ POST http://localhost:8080/api/diaries?content=점심 뭐 먹지?
 GET http://localhost:8080/api/diaries
 
 ### 4. 메모 수정 (ID가 1번인 경우)
-PUT http://localhost:8080/api/diaries/1?newContent=스프링 공부 너무 재밌다!
+PUT http://localhost:8080/api/diaries/100?newContent=스프링 공부 너무 재밌다!
 
 ### 5. 메모 삭제 (ID가 2번인 경우)
 DELETE http://localhost:8080/api/diaries/2

@@ -1,12 +1,16 @@
 package com.example.minidiary.demo;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/diaries")
 @RequiredArgsConstructor // 롬복: 생성자 주입 자동화
-public class DiaryController {
+public class DiaryController{
 
     private final DiaryRepository diaryRepository;
 
@@ -25,8 +29,11 @@ public class DiaryController {
     // 3. 메모 수정 (Update)
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, @RequestParam String newContent) {
+        // HttpServletResponse 파라미터도 필요 없습니다!
+
         Diary diary = diaryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 메모가 없습니다."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 메모를 찾을 수 없습니다."));
+
         diary.setContent(newContent);
         diaryRepository.save(diary);
         return "수정 성공!";
