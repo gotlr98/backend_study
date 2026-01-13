@@ -1,12 +1,13 @@
-package com.example.minidiary.demo;
+package com.example.minidiary.demo.controller;
 
+import com.example.minidiary.demo.Diary;
+import com.example.minidiary.demo.repository.DiaryRepository;
 import com.example.minidiary.demo.dto.DiaryDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,14 +22,21 @@ public class DiaryController {
 
     private final DiaryRepository diaryRepository;
 
-    @Operation(summary = "메모 작성", description = "새로운 메모를 등록합니다.") // API 설명
     @PostMapping
-    // @Valid: DTO의 @NotBlank 조건을 검사함
-    // @RequestBody: 이제 URL 파라미터가 아니라 JSON Body로 데이터를 받음
-    public DiaryDTO.Response create(@Valid @RequestBody DiaryDTO.Request request) {
-        Diary diary = new Diary(request.getContent());
-        Diary savedDiary = diaryRepository.save(diary);
-        return new DiaryDTO.Response(savedDiary); // Entity 대신 DTO 리턴
+    public DiaryDTO.Response create(
+            @RequestHeader("Authorization") String bearerToken,
+            @Valid @RequestBody DiaryDTO.Request request) {
+
+        try {
+            // "Bearer " 뒷부분의 실제 토큰만 추출
+            String token = bearerToken.substring(7);
+            String username = jwtUtil.getUsername(token);
+
+            Diary diary = new Diary(request.getContent() + " (By: " + username + ")");
+            return new DiaryDTO.Response(diaryRepository.save(diary));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+        }
     }
 
     @Operation(summary = "전체 조회", description = "모든 메모를 최신순으로 가져옵니다.")

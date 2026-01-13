@@ -1,6 +1,7 @@
-package com.example.minidiary.demo;
+package com.example.minidiary.demo.repository;
 
 
+import com.example.minidiary.demo.Diary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
