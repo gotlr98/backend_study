@@ -3,6 +3,7 @@ package com.example.minidiary.demo.controller;
 import com.example.minidiary.demo.Diary;
 import com.example.minidiary.demo.repository.DiaryRepository;
 import com.example.minidiary.demo.dto.DiaryDTO;
+import com.example.minidiary.demo.util.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class DiaryController {
 
     private final DiaryRepository diaryRepository;
+    private final JwtUtil jwtUtil;
 
     @PostMapping
     public DiaryDTO.Response create(
