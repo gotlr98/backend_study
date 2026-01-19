@@ -22,12 +22,14 @@ public class DiaryDTO {
         private final Long id;
         private final String content;
         private final LocalDateTime createdAt;
+        private final LocalDateTime updatedAt;
 
         // Entity -> DTO 변환 생성자
         public Response(Diary diary) {
             this.id = diary.getId();
             this.content = diary.getContent();
             this.createdAt = diary.getCreatedAt();
+            this.updatedAt = diary.getUpdatedAt();
         }
     }
 }
