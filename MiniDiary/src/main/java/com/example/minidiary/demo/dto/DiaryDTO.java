@@ -1,6 +1,6 @@
 package com.example.minidiary.demo.dto;
 
-import com.example.minidiary.demo.Diary;
+import com.example.minidiary.demo.model.Diary;
 import jakarta.validation.constraints.NotBlank; // 유효성 검사
 import lombok.Getter;
 import lombok.NoArgsConstructor;

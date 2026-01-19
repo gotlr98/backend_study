@@ -1,9 +1,8 @@
-package com.example.minidiary.demo;
+package com.example.minidiary.demo.model;
 
 import com.example.minidiary.demo.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "diaries")

@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    // 실무에서는 환경변수로 관리하지만, 교육용으로 고정값 사용
+
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final long expireTime = 1000 * 60 * 60; // 1시간 유지
 

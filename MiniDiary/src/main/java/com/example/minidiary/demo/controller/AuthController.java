@@ -44,7 +44,7 @@ public class AuthController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "ID가 없습니다."));
 
         // 3. 비밀번호 검증: matches(입력받은비번, DB의암호화된비번)
-        // 암호화된 건 복호화가 불가능하므로, 입력값을 똑같이 암호화해서 비교하는 방식입니다.
+        // 암호화된 건 복호화가 불가능하므로, 입력값을 똑같이 암호화해서 비교하는 방식
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 틀렸습니다.");
         }

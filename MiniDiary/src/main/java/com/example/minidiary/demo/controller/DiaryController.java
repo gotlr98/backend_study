@@ -1,6 +1,6 @@
 package com.example.minidiary.demo.controller;
 
-import com.example.minidiary.demo.Diary;
+import com.example.minidiary.demo.model.Diary;
 import com.example.minidiary.demo.repository.DiaryRepository;
 import com.example.minidiary.demo.dto.DiaryDTO;
 import com.example.minidiary.demo.util.JwtUtil;
@@ -15,9 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Tag(name = "Diary API", description = "나만의 메모장 API") // Swagger 그룹 이름
 @RestController
@@ -48,7 +45,7 @@ public class DiaryController {
     @Operation(summary = "전체 조회 (페이징)", description = "메모를 페이징하여 조회합니다. (기본 10개씩, 최신순)")
     @GetMapping
     public Page<DiaryDTO.Response> getAll(
-            // ✅ @PageableDefault: 클라이언트가 아무 조건 없이 요청했을 때의 기본 설정
+            // @PageableDefault: 클라이언트가 아무 조건 없이 요청했을 때의 기본 설정
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         // 1. findAll(pageable)이 DB에서 딱 필요한 만큼만 가져옴
