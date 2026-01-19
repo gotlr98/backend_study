@@ -8,6 +8,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,13 +45,16 @@ public class DiaryController {
         }
     }
 
-    @Operation(summary = "전체 조회", description = "모든 메모를 최신순으로 가져옵니다.")
+    @Operation(summary = "전체 조회 (페이징)", description = "메모를 페이징하여 조회합니다. (기본 10개씩, 최신순)")
     @GetMapping
-    public List<DiaryDTO.Response> getAll() {
-        return diaryRepository.findAllByOrderByCreatedAtDesc()
-                .stream()
-                .map(DiaryDTO.Response::new) // 리스트 내부의 Entity들을 DTO로 변환
-                .collect(Collectors.toList());
+    public Page<DiaryDTO.Response> getAll(
+            // ✅ @PageableDefault: 클라이언트가 아무 조건 없이 요청했을 때의 기본 설정
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        // 1. findAll(pageable)이 DB에서 딱 필요한 만큼만 가져옴
+        // 2. map(): Page 안에 있는 Diary 엔티티들을 하나씩 DTO로 변환
+        return diaryRepository.findAll(pageable)
+                .map(DiaryDTO.Response::new);
     }
 
     @Operation(summary = "메모 수정", description = "특정 ID의 메모 내용을 수정합니다.")
